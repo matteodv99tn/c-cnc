@@ -1,33 +1,27 @@
+#include "include_guards1.h" 
+#include "include_guards1.h" 
 
-#include "include_guards.h"
+void print_args(int argc, const char *argv[]) {
+  printf("Number of args: #%i\n", argc);
+  int i;
+  for(i=0; i<argc; i++){
+    printf("Args #%i is: %s\n", i, argv[i]);
+  }
+}
 
-int main(const int argc, const char* argv[]){
+int main(int argc, const char *argv[]) {
 
   print_args(argc, argv);
-  
-  if(argc == 1){
-    printf("No enough arguments to proceed! Terminating. \n");
-    return 1;
+
+  if(argc == 1) {
+    printf("I don't have enough arguments!\n");
+    return 0;
   }
 
-  double a = atof(argv[1]); // Functions that converts *char to floating point
+  double a = atof(argv[1]);
 
-  printf("Received %f\n", a);
+  printf("Symbol test is: %s\n", TEST);
+  printf("Test TWICE(%f): %f\n", a, TWICE(a));
 
   return 0;
-}
-
-void print_int_array(const int* const ary, const int n){
-  printf("[");
-  for(int i = 0; i < n; i++)
-    printf(" %d ", ary[i]);  
-  printf("]\n");
-}
-
-void print_args(const int argc, const char* argv[]){
-
-  printf("Program called with %d arguments: \n", argc);
-  for(int i = 0; i < argc; i++)
-    printf("%d. %s\n", i+1, argv[i]);
-
 }
