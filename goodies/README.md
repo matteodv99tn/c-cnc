@@ -28,7 +28,7 @@ docker run -it --rm -p1883:1883 -v"${PWD}/mosquitto.conf:/mosquitto/config/mosqu
 
 Note that that the `mosquitto.conf` file must be in the current directory.
 
-### Installing `libmosquitto`
+### Installing `libmosquitto` on Linux
 
 We are going to build a client for the MQTT broker. To do so, we are using a well-known library named `libmosquitto`. The library could be installed with the Ubuntu package manager as `sudo apt install libmosquitto-dev`. Unfortunately, this command installs a pretty old version of the library, version 1.6.9 at the time of writing, while the current version is 2.0.14.
 
@@ -48,4 +48,32 @@ Now you can verify that the installation went fine with the command:
 
 ```sh
 mosquitto_sub --help
+```
+
+If you get an error with loading shared libraries (and only in this case!) do the following:
+
+```sh
+cat /etc/ld.so.conf.d/libc.conf
+```
+
+If the output **does not contain** the path `/usr/local/lib`, then type:
+
+```sh
+echo "/usr/local/lib" | sudo tee -a /etc/ld.so.conf.d/libc.conf
+```
+
+Then (and in any case, even if the previous command **does report** `/usr/local/lib`) type:
+
+```sh
+sudo ldconfig
+```
+
+Now it should work.
+
+### Installing `libmosquitto` on MacOS
+
+On MacOS, libmosquitto can be easily installed with the command:
+
+```sh
+brew install mosquitto
 ```

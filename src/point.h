@@ -3,58 +3,67 @@
 //  | |_) / _ \| | '_ \| __|
 //  |  __/ (_) | | | | | |_ 
 //  |_|   \___/|_|_| |_|\__|
-//                         
+//  Point class
 
-#ifndef _POINT_H_
-#define _POINT_H_
+#ifndef POINT_H
+#define POINT_H
 
 #include "defines.h"
 
-// Point's struct
-typedef struct{
+//   _____                      
+//  |_   _|   _ _ __   ___  ___ 
+//    | || | | | '_ \ / _ \/ __|
+//    | || |_| | |_) |  __/\__ \
+//    |_| \__, | .__/ \___||___/
+//        |___/|_|              
 
-  data_t x;   // x coordinate
-  data_t y;   // y coordinate
-  data_t z;   // z coordinate
+// Object class defined as an OPAQUE STRUCT
+typedef struct point point_t;
 
-  // To determine if the values are set a bit-mask is used!
-  // 0000 0000 => none set(0)
-  // 0000 0001 => x is set(1)
-  // 0000 0010 => y is set(2)
-  // 0000 0100 => z is set(4)
-  // 0000 0111 => xyz are al set (7)
-  uint8_t s;
-
-} point_t;
 
 //   _____                 _   _                 
 //  |  ___|   _ _ __   ___| |_(_) ___  _ __  ___ 
 //  | |_ | | | | '_ \ / __| __| |/ _ \| '_ \/ __|
 //  |  _|| |_| | | | | (__| |_| | (_) | | | \__ \
 //  |_|   \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
-//
+                                              
+// LIFECYCLE ===================================================================
 
 // Create a point
-point_t point_new();
+point_t *point_new();
 
-// Set coordinates
-void point_x  (point_t *p, data_t value);
-void point_y  (point_t *p, data_t value);
-void point_z  (point_t *p, data_t value);
-void point_xyz(point_t *p, data_t x_val, data_t y_val, data_t z_val);
-
-// Distance between two points
-data_t point_dist(point_t *from, point_t *to);
-
-// Projections
-void point_delta(point_t *from, point_t *to, point_t *delta);
+// Free the memory
+void point_free(point_t *p);
 
 // Inspection
-void point_inspect(point_t *p, char **desc);
+// WARNING: desc is internally allocated, remember to free() it 
+// when done!!!
+void point_inspect(const point_t *p, char **desc);
 
-// "Modal behaviour": a point may have undefined coordinates
-// and if so it must be able to inherit undefined coordinates
-// from the previous point
-void point_modal(point_t *curr, point_t *prev);
+// ACCESSORS ===================================================================
 
-#endif // _POINT_H_
+// Set coordinates
+void point_set_x(point_t *p, data_t val);
+void point_set_y(point_t *p, data_t val);
+void point_set_z(point_t *p, data_t val);
+void point_set_xyz(point_t *p, data_t x, data_t y, data_t z);
+
+// GETTERS
+data_t point_x(const point_t *p);
+data_t point_y(const point_t *p);
+data_t point_z(const point_t *p);
+
+// COMPUTATION =================================================================
+
+// Distance between two points
+data_t point_dist(const point_t *from, const point_t *to);
+
+// Projections
+void point_delta(const point_t *from, const point_t *to, point_t *delta);
+
+// "Modal behavior": a point may have undefined coordinates and if so it
+// must be able ti inherit undefined coordinates from the previous point
+void point_modal(const point_t *from, point_t *to);
+
+
+#endif // POINT_H
