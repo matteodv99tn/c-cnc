@@ -200,3 +200,28 @@ if(NATIVE)
   message(NOTICE "   * Build with: docker build -t ${TARGET_NAME} .")
   message(NOTICE "   * then:       docker run --rm ${TARGET_NAME} > ${TARGET_NAME} && chmod a+x ${TARGET_NAME}")
 endif()
+
+#   ____            _                        _              
+#  |  _ \  _____  _(_) __ _  ___ _ __     __| | ___   ___   
+#  | | | |/ _ \ \/ / |/ _` |/ _ \ '_ \   / _` |/ _ \ / __|  
+#  | |_| | (_) >  <| | (_| |  __/ | | | | (_| | (_) | (__ _ 
+#  |____/ \___/_/\_\_|\__, |\___|_| |_|  \__,_|\___/ \___(_)
+#                     |___/                                 
+#
+
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+    set(DOXYGEN_IN ${CMAKE_SOURCE_DIR}/doxygen.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    message("-- Doxygen build started")
+
+    add_custom_target( doc_doxygen ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM )
+else (DOXYGEN_FOUND)
+  message("-- Doxygen need to be installed to generate the doxygen documentation")
+endif (DOXYGEN_FOUND)
