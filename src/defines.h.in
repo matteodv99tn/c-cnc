@@ -20,7 +20,7 @@
 #include <assert.h>
 #include <string.h>
 
-typedef double data_t;
+#define eprintf(...) fprintf(stderr, __VA_ARGS__)
 
 //   _____                      
 //  |_   _|   _ _ __   ___  ___ 

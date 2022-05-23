@@ -15,7 +15,15 @@
 //  | |_| |  __/ (__| | (_| | | | (_| | |_| | (_) | | | \__ \
 //  |____/ \___|\___|_|\__,_|_|  \__,_|\__|_|\___/|_| |_|___/
                                                           
-// Program object structure
+/**
+ * @brief structure containing all information to execture
+ * full work by parsing a G-code file
+ * 
+ * @param filename string containing the G-code document 
+ * that can be parse
+ * @param file file handler for reading the `filename` file 
+ * 
+ */
 typedef struct program {
   char *filename;                  // file name
   FILE *file;                      // file handle

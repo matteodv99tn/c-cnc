@@ -1,14 +1,16 @@
-#include "../defines.h"
-#include "../machine.h"
-#include "../program.h"
-#include "../block.h"
-#include "../point.h"
+
+#include "defines.h"
+
+#include "machine.h"
+#include "program.h"
+#include "point.h"
 
 
 #define eprintf(...) fprintf(stderr, __VA_ARGS__);
 
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]){
+
   point_t   *sp = NULL; // set point
   block_t   *b  = NULL; // current block
   program_t *p  = NULL; // program
@@ -42,8 +44,6 @@ int main(int argc, char const *argv[]) {
   //  | |  | | (_| | | | | | | | (_) | (_) | |_) |
   //  |_|  |_|\__,_|_|_| |_| |_|\___/ \___/| .__/ 
   //                                       |_|    
-  // We have to avoid memory allocation inside timed loop:
-  // we want time cost per cycle as constant as possible!
   while((b = program_next(p))){
 
     if(block_type(b) == RAPID || block_type(b) > ARC_CCW)
@@ -55,7 +55,7 @@ int main(int argc, char const *argv[]) {
     for(t = 0; t <= block_dt(b); t += tq){
       
       lambda  = block_lambda(b, t, &f);       // f: current feedrate
-      sp      = machine_setpoint(machine);    // get the setpoint
+      sp      = block_interpolate(b, lambda);
 
       if(!sp) continue;
 

@@ -22,8 +22,10 @@
 // 0000 0100 => z is set (3)
 // 0000 0111 => xyz set (7)
 typedef struct point {
-  data_t x, y, z;
-  uint8_t s;
+  data_t x;         //!< x coordinate of the points
+  data_t y;         //!< y coordinate of the points
+  data_t z;         //!< z coordinate of the points
+  uint8_t s;        //!< bitmask used to determine if coordinates are set
 } point_t;
 
 // Mnemonics for bitmask settings
